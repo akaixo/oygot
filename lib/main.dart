@@ -6,10 +6,12 @@ import 'NotificationManager.dart';
 import 'enums.dart';
 import 'views/homepage.dart';
 
+import 'package:timezone/data/latest.dart' as tz;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void main() async {
+  tz.initializeTimeZones();
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationManager().init();
   // var initializationSettingsAndroid = AndroidInitializationSettings('codex_logo');
@@ -26,7 +28,6 @@ void main() async {
   // });
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

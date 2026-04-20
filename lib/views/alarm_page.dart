@@ -1,8 +1,16 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 import 'package:oygot/constants/theme_data.dart';
 import '../data.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
+import 'package:oygot/constants/theme_data.dart';
+import 'package:oygot/main.dart';
+import '../data.dart';
+import 'package:timezone/timezone.dart' as tz;
+
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({super.key});
@@ -32,6 +40,7 @@ class _AlarmPageState extends State<AlarmPage> {
             child: ListView(
               children: alarms.map<Widget>((alarm) {
                 var alarmTime = DateFormat('hh:mm aa').format(alarm.alarmDateTime);
+                DateFormat('hh:mm aa').format(alarm.alarmDateTime);
                         return Container(
                           margin: const EdgeInsets.only(bottom: 32),
                           padding: const EdgeInsets.symmetric(
@@ -142,7 +151,10 @@ class _AlarmPageState extends State<AlarmPage> {
                                 horizontal: 32, vertical: 16,
                               ),
                               ),
-                              onPressed: () {},
+                              // onPressed: () {},
+                              onPressed: () {
+                                scheduleAlarm();
+                              },
                               child: Column(
                                 children: [
                                   Image.asset(
@@ -171,4 +183,40 @@ class _AlarmPageState extends State<AlarmPage> {
       ),
     );
   }
+
+  Future<void> scheduleAlarm() async {
+      final scheduledNotificationDateTime =
+      DateTime.now().add(const Duration(seconds: 10));
+
+      final androidDetails = AndroidNotificationDetails(
+        'alarm_notif',
+        'alarm_notif',
+        icon: 'codex_logo',
+        sound: const RawResourceAndroidNotificationSound('a_long_cold_sting'),
+        largeIcon: const DrawableResourceAndroidBitmap('codex_logo'),
+        importance: Importance.max,
+        priority: Priority.high,
+      );
+
+      final iosDetails = DarwinNotificationDetails(
+        sound: 'a_long_cold_sting.wav',
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      );
+
+      final notificationDetails = NotificationDetails(
+        android: androidDetails,
+        iOS: iosDetails,
+      );
+
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'Office',
+        'Good morning! Time for office.',
+        tz.TZDateTime.from(scheduledNotificationDateTime, tz.local),
+        notificationDetails,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
+    }
 }
