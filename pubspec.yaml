@@ -34,9 +34,11 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/audio/
+    - assets/fonts/
 
   fonts:
-     - family: avenir
+    - family: avenir
 fonts:
         - asset: assets/fonts/Avenir-Book.ttf
         - asset: assets/fonts/Avenir-Heavy.ttf

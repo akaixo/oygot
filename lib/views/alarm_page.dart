@@ -183,11 +183,9 @@ class _AlarmPageState extends State<AlarmPage> {
       ),
     );
   }
-
   Future<void> scheduleAlarm() async {
       final scheduledNotificationDateTime =
       DateTime.now().add(const Duration(seconds: 10));
-
       final androidDetails = AndroidNotificationDetails(
         'alarm_notif',
         'alarm_notif',
@@ -199,7 +197,7 @@ class _AlarmPageState extends State<AlarmPage> {
       );
 
       final iosDetails = DarwinNotificationDetails(
-        sound: 'a_long_cold_sting.wav',
+        sound: 'White_horse.wav',
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
